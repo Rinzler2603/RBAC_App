@@ -122,19 +122,5 @@ Before you begin, ensure you have the following installed:
 - **Backend:** Node.js, Express.js, MongoDB.
 - **Authentication:** JWT (JSON Web Tokens).
 
----
 
-## Screenshots
-
-Add screenshots or GIFs here to showcase the app.
-
----
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
----
-
-Happy Coding! 🚀
 
