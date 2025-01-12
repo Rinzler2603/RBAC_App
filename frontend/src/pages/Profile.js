@@ -36,13 +36,34 @@ const Profile = () => {
   if (!user) return <div>Loading...</div>;
 
   return (
-    <div>
-      <h2>Profile</h2>
-      <p>Username: {user.username}</p>
-      <p>Email: {user.email}</p>
-      <button onClick={handleLogout}>Logout</button>
-      <br /><br />
-      <button onClick={handleGoToResources}>Go to my Resources</button>
+    <div
+      className="d-flex flex-column justify-content-center align-items-center vh-100"
+      style={{
+        backgroundColor: "#000", // Black background
+        color: "#fff", // White font color
+        fontFamily: "'Poppins', sans-serif", // Google Font
+      }}
+    >
+      <h1 className="mb-4">Welcome to Your Profile</h1>
+      <div className="text-center">
+        <p><strong>Username:</strong> {user.username}</p>
+        <p><strong>Email:</strong> {user.email}</p>
+        <button
+          onClick={handleLogout}
+          className="btn btn-danger mt-3"
+          style={{ padding: "10px 20px", fontWeight: "bold" }}
+        >
+          Logout
+        </button>
+        <br />
+        <button
+          onClick={handleGoToResources}
+          className="btn btn-primary mt-3"
+          style={{ padding: "10px 20px", fontWeight: "bold" }}
+        >
+          Go to My Resources
+        </button>
+      </div>
     </div>
   );
 };

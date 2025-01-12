@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Resources = () => {
   const [resources, setResources] = useState([]);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [userRole, setUserRole] = useState('');
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [userRole, setUserRole] = useState("");
   const [editMode, setEditMode] = useState(false);
-  const [currentResourceId, setCurrentResourceId] = useState(null); // Track resource being edited
+  const [currentResourceId, setCurrentResourceId] = useState(null);
   const navigate = useNavigate();
 
   const fetchResources = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/resources', {
-        method: 'GET',
+      const response = await fetch("http://localhost:5000/api/resources", {
+        method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error('Failed to fetch resources');
+        throw new Error("Failed to fetch resources");
       }
 
       const data = await response.json();
       setResources(data);
 
-      // Fetch the user role from the token
-      const token = localStorage.getItem('token');
-      const user = JSON.parse(atob(token.split('.')[1])); // Decode JWT payload
+      // Decode the user role from the token
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(atob(token.split(".")[1]));
       setUserRole(user.role);
     } catch (error) {
       console.error(error.message);
@@ -39,34 +39,34 @@ const Resources = () => {
 
   const addResource = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
     if (!title || !content) {
-      setError('Both title and content are required');
+      setError("Both title and content are required");
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/resources', {
-        method: 'POST',
+      const response = await fetch("http://localhost:5000/api/resources", {
+        method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ title, content }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to add resource');
+        throw new Error(errorData.message || "Failed to add resource");
       }
 
       const newResource = await response.json();
       setResources([...resources, newResource]);
-      setTitle('');
-      setContent('');
-      setSuccess('Resource added successfully!');
+      setTitle("");
+      setContent("");
+      setSuccess("Resource added successfully!");
     } catch (error) {
       setError(error.message);
     }
@@ -74,20 +74,23 @@ const Resources = () => {
 
   const deleteResource = async (id) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/resources/${id}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/resources/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to delete resource');
+        throw new Error(errorData.message || "Failed to delete resource");
       }
 
       setResources(resources.filter((resource) => resource._id !== id));
-      setSuccess('Resource deleted successfully!');
+      setSuccess("Resource deleted successfully!");
     } catch (error) {
       setError(error.message);
     }
@@ -102,27 +105,30 @@ const Resources = () => {
 
   const updateResource = async (e) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
+    setError("");
+    setSuccess("");
 
     if (!title || !content) {
-      setError('Both title and content are required');
+      setError("Both title and content are required");
       return;
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/resources/${currentResourceId}`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title, content }),
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/resources/${currentResourceId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title, content }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to update resource');
+        throw new Error(errorData.message || "Failed to update resource");
       }
 
       const updatedResource = await response.json();
@@ -134,9 +140,9 @@ const Resources = () => {
       );
 
       setEditMode(false);
-      setTitle('');
-      setContent('');
-      setSuccess('Resource updated successfully!');
+      setTitle("");
+      setContent("");
+      setSuccess("Resource updated successfully!");
     } catch (error) {
       setError(error.message);
     }
@@ -148,65 +154,100 @@ const Resources = () => {
 
   const handleGoToMyProfile = () => {
     navigate("/profile");
-  }
+  };
 
   return (
-    <div>
-      <h1>Your Resources</h1>
+    <div
+      className="container py-5"
+      style={{
+        fontFamily: "Arial, sans-serif",
+        backgroundColor: "black",
+        color: "white",
+        minHeight: "100vh",
+      }}
+    >
+      <div className="text-center mb-4">
+        <h1>Your Resources</h1>
+        <p className="text-muted">Manage your resources easily</p>
+      </div>
 
-      {editMode ? (
-        <form onSubmit={updateResource}>
+      <form
+        onSubmit={editMode ? updateResource : addResource}
+        className="mb-4"
+      >
+        <div className="mb-3">
           <input
             type="text"
+            className="form-control"
             placeholder="Resource Title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+        </div>
+        <div className="mb-3">
           <textarea
+            className="form-control"
             placeholder="Resource Content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-          />
-          <button type="submit">Update Resource</button>
-          <button type="button" onClick={() => setEditMode(false)}>
+            rows="3"
+          ></textarea>
+        </div>
+        <button type="submit" className="btn btn-primary">
+          {editMode ? "Update Resource" : "Add Resource"}
+        </button>
+        {editMode && (
+          <button
+            type="button"
+            className="btn btn-secondary ms-3"
+            onClick={() => setEditMode(false)}
+          >
             Cancel
           </button>
-        </form>
-      ) : (
-        <form onSubmit={addResource}>
-          <input
-            type="text"
-            placeholder="Resource Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <textarea
-            placeholder="Resource Content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-          />
-          <button type="submit">Add Resource</button>
-        </form>
-      )}
+        )}
+      </form>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}
+      {error && <div className="alert alert-danger">{error}</div>}
+      {success && <div className="alert alert-success">{success}</div>}
 
-      <ul>
+      <ul className="list-group">
         {resources.map((resource) => (
-          <li key={resource._id}>
-            <strong>{resource.title}</strong>: {resource.content}
-            <button onClick={() => enableEditMode(resource)}>Edit</button>
-            {userRole === 'admin' && (
-              <button onClick={() => deleteResource(resource._id)}>Delete</button>
-            )}
+          <li
+            key={resource._id}
+            className="list-group-item bg-dark text-white d-flex justify-content-between align-items-center mb-2"
+          >
+            <div>
+              <strong>{resource.title}</strong>
+              <p className="mb-0">{resource.content}</p>
+            </div>
+            <div>
+              <button
+                className="btn btn-warning btn-sm me-2"
+                onClick={() => enableEditMode(resource)}
+              >
+                Edit
+              </button>
+              {userRole === "admin" && (
+                <button
+                  className="btn btn-danger btn-sm"
+                  onClick={() => deleteResource(resource._id)}
+                >
+                  Delete
+                </button>
+              )}
+            </div>
           </li>
         ))}
       </ul>
 
-      <br /><br />
-
-      <button onClick={handleGoToMyProfile}> Go to My profile </button>
+      <div className="text-center mt-4">
+        <button
+          className="btn btn-secondary"
+          onClick={handleGoToMyProfile}
+        >
+          Go to My Profile
+        </button>
+      </div>
     </div>
   );
 };

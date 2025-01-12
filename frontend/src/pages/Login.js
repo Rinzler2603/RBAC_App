@@ -22,36 +22,61 @@ const Login = () => {
     }
   };
 
-  const handleRegister = () =>{
-    navigate('/register');
-  }
+  const handleRegister = () => {
+    navigate("/register");
+  };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
-      {message && <p>{message}</p>}
-
-      <br /><br />
-      <button onClick={handleRegister}>Register</button>
+    <div
+      className="d-flex justify-content-center align-items-center vh-100"
+      style={{
+        background: "#000",
+        color: "#fff",
+        fontFamily: "'Roboto', sans-serif",
+      }}
+    >
+      <div
+        className="card p-4 text-center"
+        style={{
+          backgroundColor: "#222",
+          borderRadius: "10px",
+          width: "400px",
+        }}
+      >
+        <h2 className="mb-4 text-white">Login</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <input
+              type="email"
+              name="email"
+              className="form-control"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <input
+              type="password"
+              name="password"
+              className="form-control"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">
+            Login
+          </button>
+        </form>
+        {message && <p className="text-danger mt-3">{message}</p>}
+        <hr className="my-4 text-white" />
+        <button className="btn btn-secondary w-100" onClick={handleRegister}>
+          Register
+        </button>
+      </div>
     </div>
   );
 };
