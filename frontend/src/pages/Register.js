@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 const Register = () => {
+  const navigate = useNavigate(); 
+
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -18,6 +21,10 @@ const Register = () => {
     try {
       const res = await axios.post("http://localhost:5000/api/auth/register", formData);
       setMessage(res.data.message || "Registration successful!");
+
+      if (res.status === 201) {
+        navigate('/profile');  // Redirect to the profile page
+      }
     } catch (error) {
       setMessage(error.response?.data?.message || "An error occurred");
     }

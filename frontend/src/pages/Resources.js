@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Resources = () => {
   const [resources, setResources] = useState([]);
@@ -9,6 +10,7 @@ const Resources = () => {
   const [userRole, setUserRole] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [currentResourceId, setCurrentResourceId] = useState(null); // Track resource being edited
+  const navigate = useNavigate();
 
   const fetchResources = async () => {
     try {
@@ -144,6 +146,10 @@ const Resources = () => {
     fetchResources();
   }, []);
 
+  const handleGoToMyProfile = () => {
+    navigate("/profile");
+  }
+
   return (
     <div>
       <h1>Your Resources</h1>
@@ -197,6 +203,10 @@ const Resources = () => {
           </li>
         ))}
       </ul>
+
+      <br /><br />
+
+      <button onClick={handleGoToMyProfile}> Go to My profile </button>
     </div>
   );
 };

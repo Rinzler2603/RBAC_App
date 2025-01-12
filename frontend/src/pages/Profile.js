@@ -29,6 +29,10 @@ const Profile = () => {
     navigate("/login");
   };
 
+  const handleGoToResources = () => {
+    navigate('/resources'); // Navigate to the "My Resources" page
+  };
+
   if (!user) return <div>Loading...</div>;
 
   return (
@@ -37,6 +41,8 @@ const Profile = () => {
       <p>Username: {user.username}</p>
       <p>Email: {user.email}</p>
       <button onClick={handleLogout}>Logout</button>
+      <br /><br />
+      <button onClick={handleGoToResources}>Go to my Resources</button>
     </div>
   );
 };
